@@ -91,7 +91,14 @@ These lines from the house lesson…
 - ✅ **Check**, **Show** and **Clear** buttons on every exercise
 - 💡 A folded *“Need help?”* word bank for students who are stuck
 - 🔑 A complete answer key at the end
-- 🌗 Light and dark mode, plus two styles: *Classic* (serif) and *Modern* (sans)
+- 🎨 Six styles to choose from the **Aa** menu, each in light and dark (or *Auto*, following the device):
+  - *Classic*: a newspaper-style serif
+  - *Modern*: clean sans, blue-grey with a violet accent
+  - *Editorial*: a magazine look on warm paper
+  - *Blueprint*: a technical drawing grid, made for architects
+  - *Concrete*: bold, raw and brutalist
+  - *Notebook*: playful ruled paper, handwriting and sticky notes
+- 🖌️ A lesson can pick its own style with one line, such as `style: notebook`, and students can still switch
 - 🖨️ A clean printout for paper worksheets
 - 🔢 Automatic numbering and a menu to jump between exercises
 
