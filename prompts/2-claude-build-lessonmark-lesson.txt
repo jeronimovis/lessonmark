@@ -1,0 +1,16 @@
+==== TEACHER'S CHOICES (fill in) ====
+VIDEO LINK: [paste link]
+LEARNERS: [e.g. architects and architectural engineers]
+LEVEL: [e.g. C1]
+CLASS LENGTH: [e.g. 45 minutes]
+MEDIA: [YouTube only / also audio.mp3 and video.mp4 next to the page]
+STYLE: [classic (serif) / modern (sans)]
+EXTRAS (optional): [e.g. a role play, a technical angle for engineers, a reading text]
+=====================================
+
+Use the lessonmark-lesson skill to create a LessonMark data.md from the video above and the timestamped script below. Skip the intro, sponsor messages and credits.
+
+(If the skill is not installed: attach LessonMark-spec.md and replace the line above with "Follow the attached LessonMark-spec.md to create a LessonMark data.md from the video above and the timestamped script below.")
+
+SCRIPT:
+[paste Gemini's answer]
