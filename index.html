@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="LessonMark 0.5">
+<meta name="generator" content="LessonMark 0.6">
 <title>LessonMark</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22%3E%3Crect width=%22120%22 height=%22120%22 rx=%2214%22 fill=%22%23ecebe7%22/%3E%3Cpath d=%22M69.6 81.1H68.7L62.4 78H34.3V74.4H67.7L60.9 76L73.1 58.4L74.7 58.8ZM43.7 21.3V78H20.3V76.5L26.8 74.6V21.3L20.3 19.4V17.9H50.2V19.4Z%22 fill=%22%231c1e21%22/%3E%3Cpath d=%22M72 30H102%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M72 46H95%22 stroke=%22%231f3fb8%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M72 62H102%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M18 88H102%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M18 102H74%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
 <script>
@@ -1086,15 +1086,29 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
     r.onload = function () { render(String(r.result)); };
     r.readAsText(file, 'utf-8');
   }
-  function showDrop(name) {
+  var PICK_DIR = !!(window.showDirectoryPicker && window.indexedDB);
+  var LOCAL = location.protocol === 'file:';
+  var savedDir = null;                      // folder handle remembered for this page (Chrome / Edge)
+  function showDrop(name, msg) {
     stopAll();
     hero.hidden = true; nav.innerHTML = ''; foot.innerHTML = '';
-    var why = location.protocol === 'file:'
-      ? 'The page tried to open <code>' + esc(name) + '</code>, but the browser blocks that when a page is opened straight from your computer.'
-      : 'There is no <code>' + esc(name) + '</code> in this folder yet.';
+    var why, buttons = '';
+    if (LOCAL && PICK_DIR) {
+      why = 'Browsers don’t let a page open files by itself when it is opened from your computer. Choose this lesson’s folder once: from then on <code>' + esc(name) + '</code> opens automatically.';
+      buttons = savedDir
+        ? '<button type="button" class="btn" id="reopen">Open ' + esc(name) + ' from “' + esc(savedDir.name) + '”</button> <button type="button" class="btn ghost" id="choose-dir">Choose another folder</button>'
+        : '<button type="button" class="btn" id="choose-dir">Choose the lesson folder</button>';
+      buttons += ' <button type="button" class="btn ghost" id="choose">Choose a file</button>';
+    } else if (LOCAL) {
+      why = 'This browser doesn’t let a page open <code>' + esc(name) + '</code> by itself when it is opened from your computer. Choose the file, or open the page online.';
+      buttons = '<button type="button" class="btn" id="choose">Choose a lesson file</button>';
+    } else {
+      why = 'Could not find <code>' + esc(name) + '</code> next to this page. Check that it is uploaded to the same folder and that the name matches exactly (capitals count).';
+      buttons = '<button type="button" class="btn" id="choose">Choose a lesson file</button>';
+    }
     app.innerHTML = '<div class="drop" id="drop">' + LOGO_LOCKUP + '<h1>Open a lesson</h1>' +
-      '<p>Drag a lesson file (<code>.md</code> or <code>.txt</code>) onto this page, or choose one.</p>' +
-      '<p><button type="button" class="btn" id="choose">Choose a lesson file</button></p>' +
+      '<p>Drag a lesson file (<code>.md</code> or <code>.txt</code>) onto this page, or:</p>' +
+      '<p>' + buttons + '</p>' + (msg ? '<p class="small" style="color:var(--no)">' + msg + '</p>' : '') +
       '<p class="small">' + why + '</p></div>';
   }
   document.addEventListener('dragover', function (e) { e.preventDefault(); var d = document.getElementById('drop'); if (d) d.classList.add('over'); });
@@ -1107,21 +1121,110 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
 
   var name = 'data.md';
   try { name = new URLSearchParams(location.search).get('lesson') || name; } catch (e) {}
-  function viaXHR() {
-    var x = new XMLHttpRequest();
-    try {
-      x.open('GET', name, true);
-      x.onload = function () { if ((x.status === 200 || x.status === 0) && x.responseText) render(x.responseText); else showDrop(name); };
-      x.onerror = function () { showDrop(name); };
-      x.send();
-    } catch (e) { showDrop(name); }
-  }
-  if (window.fetch && location.protocol !== 'file:') {
-    fetch(name, { cache: 'no-cache' })
+
+  /* --- 1. online: data.md next to the page; on GitHub Pages also the raw file in the repository --- */
+  function looksLikeHtml(t) { return /^\s*<(!doctype|html|head|body)/i.test(t); }
+  function getText(url) {
+    return fetch(url, { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
-      .then(render)
-      .catch(function () { showDrop(name); });
-  } else viaXHR();
+      .then(function (t) { if (looksLikeHtml(t)) throw new Error('html'); return t; });
+  }
+  function githubRawUrls() {                 // GitHub Pages turns .md files with a --- header into web pages,
+    var h = location.hostname.match(/^([^.]+)\.github\.io$/i);   // so read the original from the repository
+    if (!h) return [];
+    var owner = h[1], dirs = location.pathname.replace(/[^\/]*$/, '').split('/').filter(Boolean).map(decodeURIComponent);
+    var file = name.split('/'), out = [];
+    var repos = dirs.length ? [[dirs[0], dirs.slice(1)], [owner + '.github.io', dirs]] : [[owner + '.github.io', []]];
+    repos.forEach(function (r) {
+      ['main', 'master', 'gh-pages'].forEach(function (branch) {
+        out.push('https://raw.githubusercontent.com/' + owner + '/' + r[0] + '/' + branch + '/' + r[1].concat(file).map(encodeURIComponent).join('/'));
+      });
+    });
+    return out;
+  }
+  function firstThatLoads(urls) {
+    var i = 0;
+    return new Promise(function (resolve, reject) {
+      (function next() {
+        if (i >= urls.length) { reject(new Error('none')); return; }
+        getText(urls[i++]).then(resolve, next);
+      })();
+    });
+  }
+
+  /* --- 2. on this computer: XHR (some browsers allow it), then a remembered folder (Chrome / Edge) --- */
+  function viaXHR() {
+    return new Promise(function (resolve, reject) {
+      var x = new XMLHttpRequest();
+      try {
+        x.open('GET', name, true);
+        x.onload = function () { if ((x.status === 200 || x.status === 0) && x.responseText && !looksLikeHtml(x.responseText)) resolve(x.responseText); else reject(new Error('xhr')); };
+        x.onerror = function () { reject(new Error('xhr')); };
+        x.send();
+      } catch (e) { reject(e); }
+    });
+  }
+  function db() {
+    return new Promise(function (res, rej) {
+      var r = indexedDB.open('lessonmark', 1);
+      r.onupgradeneeded = function () { r.result.createObjectStore('folders'); };
+      r.onsuccess = function () { res(r.result); };
+      r.onerror = function () { rej(r.error); };
+    });
+  }
+  var DIR_KEY = location.pathname.replace(/[^\/]*$/, '');
+  function loadDir() {
+    return db().then(function (d) { return new Promise(function (res, rej) {
+      var q = d.transaction('folders').objectStore('folders').get(DIR_KEY);
+      q.onsuccess = function () { res(q.result || null); }; q.onerror = function () { rej(q.error); };
+    }); });
+  }
+  function saveDir(dir) {
+    return db().then(function (d) { return new Promise(function (res, rej) {
+      var t = d.transaction('folders', 'readwrite'); t.objectStore('folders').put(dir, DIR_KEY);
+      t.oncomplete = function () { res(); }; t.onerror = function () { rej(t.error); };
+    }); });
+  }
+  function readFromDir(dir) {
+    var parts = name.split('/').filter(Boolean), fileName = parts.pop(), p = Promise.resolve(dir);
+    parts.forEach(function (sub) { p = p.then(function (d) { return d.getDirectoryHandle(sub); }); });
+    return p.then(function (d) { return d.getFileHandle(fileName); }).then(function (h) { return h.getFile(); }).then(function (f) { return f.text(); });
+  }
+  function openDir(dir, ask) {
+    var perm = ask ? dir.requestPermission({ mode: 'read' }) : dir.queryPermission({ mode: 'read' });
+    return perm.then(function (p) { if (p !== 'granted') throw new Error('permission'); return readFromDir(dir); }).then(render);
+  }
+  function chooseDir() {
+    window.showDirectoryPicker({ id: 'lessonmark', mode: 'read' }).then(function (dir) {
+      savedDir = dir;
+      saveDir(dir).catch(function () {});
+      return readFromDir(dir).then(render, function () {
+        showDrop(name, 'There is no ' + esc(name) + ' in “' + esc(dir.name) + '”. Choose the folder that contains it.');
+      });
+    }).catch(function () {});               // the reader closed the folder window
+  }
+  app.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('button');
+    if (!b) return;
+    if (b.id === 'choose-dir') chooseDir();
+    else if (b.id === 'reopen' && savedDir) openDir(savedDir, true).catch(function () {
+      showDrop(name, 'Could not open ' + esc(name) + ' from that folder. Choose the folder again.');
+    });
+  });
+  function tryLocal() {
+    viaXHR().then(render, function () {
+      if (!PICK_DIR) { showDrop(name); return; }
+      loadDir().then(function (dir) {
+        savedDir = dir;
+        if (!dir) { showDrop(name); return; }
+        openDir(dir, false).catch(function () { showDrop(name); });
+      }, function () { showDrop(name); });
+    });
+  }
+
+  if (LOCAL) tryLocal();
+  else if (window.fetch) firstThatLoads([name].concat(githubRawUrls())).then(render, function () { showDrop(name); });
+  else viaXHR().then(render, function () { showDrop(name); });
 })();
 </script>
 </body>
