@@ -18,6 +18,8 @@
   <a href="https://jeronimovis.github.io/lessonmark/LessonMark-reference.html"><b>📖 Quick reference</b></a>
   &nbsp;·&nbsp;
   <a href="#-make-your-own-lesson-in-3-steps"><b>🚀 Get started</b></a>
+  &nbsp;·&nbsp;
+  <a href="#-from-a-youtube-video-to-a-lesson-with-two-prompts"><b>🤖 Video to lesson with AI</b></a>
 </p>
 
 ---
@@ -103,9 +105,18 @@ Add your own `audio.mp3`, `video.mp4` and images to the same folder, and they'll
 
 > 💡 **Several lessons?** Give each one its own folder with `index.html` and `data.md`, like [`lesson/`](lesson/). Or keep them together as `venice.md`, `bridges.md`… and open `index.html?lesson=venice.md`.
 
-## 🤖 Let an AI assistant help
+## 🤖 From a YouTube video to a lesson, with two prompts
 
-The house lesson was written with AI help, from the video and its timestamped transcript. [`LessonMark-spec.md`](LessonMark-spec.md) describes the whole notation in plain text: give it to an AI assistant with a transcript or a text, and ask for a lesson. You'll get a `data.md` ready to drop in.
+The house lesson was made exactly this way. Each prompt starts with a short **Teacher's choices** box (video link, learners, level, class length…), so you only fill in the top and paste.
+
+| Step | Prompt | What you get |
+|------|--------|--------------|
+| **1 · Gemini** watches the video | [`1-gemini-extract-video-script.txt`](prompts/1-gemini-extract-video-script.txt) | A word-for-word, timestamped transcript, suggested clips, key vocabulary with times, grammar examples and discussion ideas. |
+| **2 · Claude** writes the lesson | [`2-claude-build-lessonmark-lesson.txt`](prompts/2-claude-build-lessonmark-lesson.txt) | A finished `data.md`, ready to drop next to `index.html`. |
+
+For step 2, Claude works best with the **lessonmark-lesson** skill: download [`lessonmark-lesson-skill.zip`](prompts/lessonmark-lesson-skill.zip) and add it in Claude under **Customize → Skills → + → Create skill → Upload a skill**. No skill? Attach [`LessonMark-spec.md`](LessonMark-spec.md) instead: it describes the whole notation in plain text, so any AI assistant can write LessonMark lessons from a transcript or a text.
+
+> 📋 The full steps are in [`prompts/README.txt`](prompts/README.txt).
 
 ## 📂 What's in here
 
@@ -116,6 +127,7 @@ The house lesson was written with AI help, from the video and its timestamped tr
 | [`data.md`](data.md) | The feature guide you see on the [main page](https://jeronimovis.github.io/lessonmark/). |
 | [`LessonMark-reference.html`](https://jeronimovis.github.io/lessonmark/LessonMark-reference.html) | The quick reference page. |
 | [`LessonMark-spec.md`](LessonMark-spec.md) | The notation in plain text, for writing lessons with AI. |
+| [`prompts/`](prompts/) | The Gemini and Claude prompts, plus the lessonmark-lesson skill for Claude. |
 | `image01.png` … `image04.png` | Illustrations used in the feature guide. |
 | [`logo/`](logo/) | The LessonMark logo in light and dark versions. |
 
