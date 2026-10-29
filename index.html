@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="LessonMark 0.8">
+<meta name="generator" content="LessonMark 0.9">
 <title>LessonMark</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22%3E%3Crect width=%22120%22 height=%22120%22 rx=%2214%22 fill=%22%23ecebe7%22/%3E%3Crect x=%2218%22 y=%2218%22 width=%2253.0%22 height=%2253.0%22 rx=%224%22 fill=%22%231c1e21%22/%3E%3Cpath d=%22M55.6 60.4H55.2L52 58.9H37.9V57H54.7L51.3 57.9L57.4 49L58.2 49.2ZM42.6 30.3V58.9H30.8V58.1L34.1 57.2V30.3L30.8 29.4V28.6H45.9V29.4Z%22 fill=%22%23ecebe7%22/%3E%3Cpath d=%22M82.2 21.2H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M82.2 36.8H102.0%22 stroke=%22%231f3fb8%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M82.2 52.2H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M82.2 67.8H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M21.2 83.2H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M21.2 98.8H74.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
 <script>
@@ -1310,21 +1310,22 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
   var PICK_DIR = !!(window.showDirectoryPicker && window.indexedDB);
   var LOCAL = location.protocol === 'file:';
   var savedDir = null;                      // folder handle remembered for this page (Chrome / Edge)
+  function codeNames(label) { return label.split(' or ').map(function (n) { return '<code>' + esc(n) + '</code>'; }).join(' or '); }
   function showDrop(name, msg) {
     stopAll();
     hero.hidden = true; nav.innerHTML = ''; foot.innerHTML = '';
     var why, buttons = '';
     if (LOCAL && PICK_DIR) {
-      why = 'Browsers don’t let a page open files by itself when it is opened from your computer. Choose this lesson’s folder once: from then on <code>' + esc(name) + '</code> opens automatically.';
+      why = 'Browsers don’t let a page open files by itself when it is opened from your computer. Choose this lesson’s folder once: from then on ' + codeNames(name) + ' opens automatically.';
       buttons = savedDir
-        ? '<button type="button" class="btn" id="reopen">Open ' + esc(name) + ' from “' + esc(savedDir.name) + '”</button> <button type="button" class="btn ghost" id="choose-dir">Choose another folder</button>'
+        ? '<button type="button" class="btn" id="reopen">Open the lesson from “' + esc(savedDir.name) + '”</button> <button type="button" class="btn ghost" id="choose-dir">Choose another folder</button>'
         : '<button type="button" class="btn" id="choose-dir">Choose the lesson folder</button>';
       buttons += ' <button type="button" class="btn ghost" id="choose">Choose a file</button>';
     } else if (LOCAL) {
-      why = 'This browser doesn’t let a page open <code>' + esc(name) + '</code> by itself when it is opened from your computer. Choose the file, or open the page online.';
+      why = 'This browser doesn’t let a page open ' + codeNames(name) + ' by itself when it is opened from your computer. Choose the file, or open the page online.';
       buttons = '<button type="button" class="btn" id="choose">Choose a lesson file</button>';
     } else {
-      why = 'Could not find <code>' + esc(name) + '</code> next to this page. Check that it is uploaded to the same folder and that the name matches exactly (capitals count).';
+      why = 'Could not find ' + codeNames(name) + ' next to this page. Check that it is uploaded to the same folder and that the name matches exactly (capitals count).';
       buttons = '<button type="button" class="btn" id="choose">Choose a lesson file</button>';
     }
     app.innerHTML = '<div class="drop" id="drop">' + LOGO_LOCKUP + '<h1>Open a lesson</h1>' +
@@ -1340,8 +1341,22 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
     if (f) readFile(f);
   });
 
-  var name = 'data.md';
-  try { name = new URLSearchParams(location.search).get('lesson') || name; } catch (e) {}
+  var custom = null;
+  try { custom = new URLSearchParams(location.search).get('lesson'); } catch (e) {}
+  // data.txt is tried when data.md is missing or blocked: some servers hide or refuse .md files
+  // (GitHub Pages without .nojekyll turns .md files with a --- header into web pages).
+  var NAMES = custom ? [custom] : ['data.md', 'data.txt'];
+  var name = NAMES[0];
+  var LABEL = NAMES.join(' or ');
+  function firstOf(list, fn) {               // try fn(list[0]), then fn(list[1])…; resolve with the first that works
+    var i = 0;
+    return new Promise(function (resolve, reject) {
+      (function next(err) {
+        if (i >= list.length) { reject(err || new Error('none')); return; }
+        fn(list[i++]).then(resolve, next);
+      })();
+    });
+  }
 
   /* --- 1. online: data.md next to the page; on GitHub Pages also the raw file in the repository --- */
   function looksLikeHtml(t) { return /^\s*<(!doctype|html|head|body)/i.test(t); }
@@ -1350,7 +1365,7 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
       .then(function (t) { if (looksLikeHtml(t)) throw new Error('html'); return t; });
   }
-  function githubRawUrls() {                 // GitHub Pages turns .md files with a --- header into web pages,
+  function githubRawUrls(name) {                 // GitHub Pages turns .md files with a --- header into web pages,
     var h = location.hostname.match(/^([^.]+)\.github\.io$/i);   // so read the original from the repository
     if (!h) return [];
     var owner = h[1], dirs = location.pathname.replace(/[^\/]*$/, '').split('/').filter(Boolean).map(decodeURIComponent);
@@ -1374,7 +1389,7 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
   }
 
   /* --- 2. on this computer: XHR (some browsers allow it), then a remembered folder (Chrome / Edge) --- */
-  function viaXHR() {
+  function viaXHR(name) {
     return new Promise(function (resolve, reject) {
       var x = new XMLHttpRequest();
       try {
@@ -1406,7 +1421,8 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
       t.oncomplete = function () { res(); }; t.onerror = function () { rej(t.error); };
     }); });
   }
-  function readFromDir(dir) {
+  function readFromDir(dir) { return firstOf(NAMES, function (n) { return readNameFromDir(dir, n); }); }
+  function readNameFromDir(dir, name) {
     var parts = name.split('/').filter(Boolean), fileName = parts.pop(), p = Promise.resolve(dir);
     parts.forEach(function (sub) { p = p.then(function (d) { return d.getDirectoryHandle(sub); }); });
     return p.then(function (d) { return d.getFileHandle(fileName); }).then(function (h) { return h.getFile(); }).then(function (f) { return f.text(); });
@@ -1420,7 +1436,7 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
       savedDir = dir;
       saveDir(dir).catch(function () {});
       return readFromDir(dir).then(render, function () {
-        showDrop(name, 'There is no ' + esc(name) + ' in “' + esc(dir.name) + '”. Choose the folder that contains it.');
+        showDrop(LABEL, 'There is no ' + esc(LABEL) + ' in “' + esc(dir.name) + '”. Choose the folder that contains it.');
       });
     }).catch(function () {});               // the reader closed the folder window
   }
@@ -1429,23 +1445,27 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
     if (!b) return;
     if (b.id === 'choose-dir') chooseDir();
     else if (b.id === 'reopen' && savedDir) openDir(savedDir, true).catch(function () {
-      showDrop(name, 'Could not open ' + esc(name) + ' from that folder. Choose the folder again.');
+      showDrop(LABEL, 'Could not open ' + esc(LABEL) + ' from that folder. Choose the folder again.');
     });
   });
   function tryLocal() {
-    viaXHR().then(render, function () {
-      if (!PICK_DIR) { showDrop(name); return; }
+    firstOf(NAMES, viaXHR).then(render, function () {
+      if (!PICK_DIR) { showDrop(LABEL); return; }
       loadDir().then(function (dir) {
         savedDir = dir;
-        if (!dir) { showDrop(name); return; }
-        openDir(dir, false).catch(function () { showDrop(name); });
-      }, function () { showDrop(name); });
+        if (!dir) { showDrop(LABEL); return; }
+        openDir(dir, false).catch(function () { showDrop(LABEL); });
+      }, function () { showDrop(LABEL); });
     });
   }
 
   if (LOCAL) tryLocal();
-  else if (window.fetch) firstThatLoads([name].concat(githubRawUrls())).then(render, function () { showDrop(name); });
-  else viaXHR().then(render, function () { showDrop(name); });
+  else if (window.fetch) {
+    var urls = NAMES.slice();                 // data.md, data.txt next to the page, then the repository copies
+    NAMES.forEach(function (n) { urls = urls.concat(githubRawUrls(n)); });
+    firstThatLoads(urls).then(render, function () { showDrop(LABEL); });
+  }
+  else firstOf(NAMES, viaXHR).then(render, function () { showDrop(LABEL); });
 })();
 </script>
 </body>
