@@ -17,6 +17,8 @@
   &nbsp;·&nbsp;
   <a href="https://jeronimovis.github.io/lessonmark/LessonMark-reference.html"><b>📖 Quick reference</b></a>
   &nbsp;·&nbsp;
+  <a href="https://jeronimovis.github.io/lessonmark/online/"><b>📂 Open your own lesson</b></a>
+  &nbsp;·&nbsp;
   <a href="#-make-your-own-lesson-in-3-steps"><b>🚀 Get started</b></a>
   &nbsp;·&nbsp;
   <a href="#-from-a-youtube-video-to-a-lesson-with-two-prompts"><b>🤖 Video to lesson with AI</b></a>
@@ -49,6 +51,7 @@ Every exercise has **Check**, **Show** and **Clear** buttons, a folded *“Need 
 |---|---|
 | 🧭 **[Feature guide](https://jeronimovis.github.io/lessonmark/)** | A lesson about *the incredible engineering of Venice* that shows **every feature in action**, each one with the exact text that produced it. |
 | 📖 **[Quick reference](https://jeronimovis.github.io/lessonmark/LessonMark-reference.html)** | Every feature and its notation on one page, with a **Copy** button on each example. Handy to keep open while you write. |
+| 📂 **[Open your own lesson](https://jeronimovis.github.io/lessonmark/online/)** | LessonMark, ready to use online. Choose a `data.md` from your computer and it opens as a lesson right away, YouTube clips included. Nothing to download or set up. |
 
 ## 👋 Why LessonMark?
 
@@ -104,6 +107,10 @@ These lines from the house lesson…
 
 ## 🚀 Make your own lesson in 3 steps
 
+> ⚡ **Just want to try?** Write a `data.md` (or ask AI for one, [see below](#-from-a-youtube-video-to-a-lesson-with-two-prompts)), go to **[LessonMark online](https://jeronimovis.github.io/lessonmark/online/)** and choose your file. That's it: no copying, no hosting. Use YouTube links for your clips, and web addresses for any images or audio, since files on your computer can't be reached from there.
+>
+> When you want a link your students can open directly, follow the 3 steps:
+
 1. **Copy this repository.** Click **Use this template** or **Fork** at the top of this page. Or just download `index.html`: it's the only file you really need.
 2. **Write your lesson** in a file called `data.md`, next to `index.html`. Start from [the house lesson](lesson/data.md) and change it, or look things up in the [quick reference](https://jeronimovis.github.io/lessonmark/LessonMark-reference.html).
 3. **Put it online.** In your copy, go to **Settings → Pages**, choose the `main` branch and click **Save**. A minute later your lesson is live.
@@ -119,7 +126,7 @@ The house lesson was made exactly this way. Each prompt starts with a short **Te
 | Step | Prompt | What you get |
 |------|--------|--------------|
 | **1 · Gemini** watches the video | [`1-gemini-extract-video-script.txt`](prompts/1-gemini-extract-video-script.txt) | A word-for-word, timestamped transcript, suggested clips, key vocabulary with times, grammar examples and discussion ideas. |
-| **2 · Claude** writes the lesson | [`2-claude-build-lessonmark-lesson.txt`](prompts/2-claude-build-lessonmark-lesson.txt) | A finished `data.md`, ready to drop next to `index.html`. |
+| **2 · Claude** writes the lesson | [`2-claude-build-lessonmark-lesson.txt`](prompts/2-claude-build-lessonmark-lesson.txt) | A finished `data.md`, ready to drop next to `index.html`, or to open straight away in [LessonMark online](https://jeronimovis.github.io/lessonmark/online/). |
 
 For step 2, Claude works best with the **lessonmark-lesson** skill: download [`lessonmark-lesson-skill.zip`](prompts/lessonmark-lesson-skill.zip) and add it in Claude under **Customize → Skills → + → Create skill → Upload a skill**. No skill? Attach [`LessonMark-spec.md`](LessonMark-spec.md) instead: it describes the whole notation in plain text, so any AI assistant can write LessonMark lessons from a transcript or a text.
 
@@ -130,6 +137,7 @@ For step 2, Claude works best with the **lessonmark-lesson** skill: download [`l
 | File | What it is |
 |------|------------|
 | [`lesson/`](lesson/) | The house-tour lesson: [try it live](https://jeronimovis.github.io/lessonmark/lesson/) or [read its `data.md`](lesson/data.md). |
+| [`online/`](online/) | Just the LessonMark page, with no lesson in it: [open it](https://jeronimovis.github.io/lessonmark/online/) and choose any `data.md` from your computer. |
 | [`index.html`](index.html) | The LessonMark page. You never need to edit it. |
 | [`data.md`](data.md) | The feature guide you see on the [main page](https://jeronimovis.github.io/lessonmark/). |
 | [`LessonMark-reference.html`](https://jeronimovis.github.io/lessonmark/LessonMark-reference.html) | The quick reference page. |
@@ -140,7 +148,8 @@ For step 2, Claude works best with the **lessonmark-lesson** skill: download [`l
 
 ## ❓ Good to know
 
-- **Opening the page from your computer?** Browsers don't let a page read files by itself. In Chrome or Edge, choose the lesson folder once and it opens automatically after that. In other browsers, pick the file or use the online version.
+- **Opening the page from your computer?** Browsers don't let a page read files by itself. In Chrome or Edge, choose the lesson folder once and it opens automatically after that. In other browsers, pick the file or use [LessonMark online](https://jeronimovis.github.io/lessonmark/online/).
+- **Using LessonMark online?** Your file is opened in your browser only; nothing is uploaded or saved. YouTube clips play normally, but `audio.mp3`, `video.mp4` and images on your computer can't be found from there, so use web links for them or host the lesson yourself.
 - **Audio and video files** aren't included in this repository, so the feature guide's local players show a short message. All YouTube clips play normally.
 - **Something wrong in your lesson file?** A red box at the top of the page tells you which line to fix.
 
