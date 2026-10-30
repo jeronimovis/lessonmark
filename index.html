@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="LessonMark 0.9">
+<meta name="generator" content="LessonMark 0.10">
 <title>LessonMark</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22%3E%3Crect width=%22120%22 height=%22120%22 rx=%2214%22 fill=%22%23ecebe7%22/%3E%3Crect x=%2218%22 y=%2218%22 width=%2253.0%22 height=%2253.0%22 rx=%224%22 fill=%22%231c1e21%22/%3E%3Cpath d=%22M55.6 60.4H55.2L52 58.9H37.9V57H54.7L51.3 57.9L57.4 49L58.2 49.2ZM42.6 30.3V58.9H30.8V58.1L34.1 57.2V30.3L30.8 29.4V28.6H45.9V29.4Z%22 fill=%22%23ecebe7%22/%3E%3Cpath d=%22M82.2 21.2H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M82.2 36.8H102.0%22 stroke=%22%231f3fb8%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M82.2 52.2H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M82.2 67.8H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M21.2 83.2H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M21.2 98.8H74.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
 <script>
@@ -393,6 +393,9 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
 :root[data-style=modern] .drop h1{font-weight:800;letter-spacing:-.04em}
 .drop p{margin:0 0 18px}
 .drop.over{border-color:var(--accent);background-color:var(--accent-soft)}
+.drop .or{display:flex;align-items:center;gap:14px;margin:30px 0 14px;font-family:var(--ui);font-size:14px;color:var(--muted)}
+.drop .or:before,.drop .or:after{content:"";flex:1;border-top:1px solid var(--slab-deep)}
+.drop textarea{min-height:140px;margin:0 0 12px;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;line-height:1.5}
 .small{font-family:var(--ui);font-size:14px;color:var(--muted)}
 .loading{font-family:var(--ui);color:var(--muted);padding:64px 0;text-align:center}
 
@@ -1233,6 +1236,10 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
     }
     else if (b.classList.contains('replay-yt')) { var f = b.closest('.player').querySelector('iframe'); f.src = f.getAttribute('data-src') + '&autoplay=1'; }
     else if (b.id === 'choose') document.getElementById('fi').click();
+    else if (b.id === 'paste-go') pasteGo();
+  });
+  app.addEventListener('keydown', function (e) {
+    if (e.target.id === 'paste' && e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); pasteGo(); }
   });
   app.addEventListener('change', function (e) {
     if (e.target.classList.contains('speed')) return;
@@ -1331,7 +1338,31 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
     app.innerHTML = '<div class="drop" id="drop">' + LOGO_LOCKUP + '<h1>Open a lesson</h1>' +
       '<p>Drag a lesson file (<code>.md</code> or <code>.txt</code>) onto this page, or:</p>' +
       '<p>' + buttons + '</p>' + (msg ? '<p class="small" style="color:var(--no)">' + msg + '</p>' : '') +
-      '<p class="small">' + why + '</p></div>';
+      '<p class="small">' + why + '</p>' +
+      '<p class="or">or paste the lesson text</p>' +
+      '<textarea id="paste" spellcheck="false" aria-label="Lesson text" placeholder="Copy the lesson from your AI assistant or text editor and paste it here. It starts with ---"></textarea>' +
+      '<p><button type="button" class="btn" id="paste-go">Show the lesson</button></p>' +
+      '<p class="small" id="paste-msg" hidden></p></div>';
+  }
+  // Keep only the lesson when a whole chat answer is pasted: text inside the first ``` code block,
+  // or, without one, everything from the first --- line on.
+  function cleanPaste(t) {
+    var L = String(t || '').replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n').split('\n'), i, a = -1, z = -1, h = -1;
+    for (i = 0; i < L.length; i++) if (/^\s*```/.test(L[i])) { a = i; break; }
+    if (a > -1) {
+      for (i = a + 1; i < L.length; i++) if (/```\s*$/.test(L[i])) { z = i; break; }
+      if (z > -1) { var last = L[z].replace(/```\s*$/, ''); L = L.slice(a + 1, z); if (last.trim()) L.push(last); }
+      else L = L.slice(a + 1);
+    }
+    for (i = 0; i < L.length; i++) if (L[i].trim() === '---') { h = i; break; }
+    if (h > 0 && L.slice(0, h).every(function (x) { return !/^\s*(#|\[|>|\{)/.test(x); })) L = L.slice(h);
+    return L.join('\n').trim() + '\n';
+  }
+  function pasteGo() {
+    var ta = document.getElementById('paste'), msg = document.getElementById('paste-msg');
+    var t = cleanPaste(ta ? ta.value : '');
+    if (!t.trim()) { if (msg) { msg.textContent = 'The box is empty. Paste the lesson text first.'; msg.hidden = false; } if (ta) ta.focus(); return; }
+    render(t);
   }
   document.addEventListener('dragover', function (e) { e.preventDefault(); var d = document.getElementById('drop'); if (d) d.classList.add('over'); });
   document.addEventListener('dragleave', function () { var d = document.getElementById('drop'); if (d) d.classList.remove('over'); });
