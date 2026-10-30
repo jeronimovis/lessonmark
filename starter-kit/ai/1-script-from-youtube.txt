@@ -1,0 +1,48 @@
+LESSONMARK · STEP 1 · GET THE SCRIPT OF A YOUTUBE VIDEO
+
+HOW TO USE THIS FILE
+1. Open Gemini (gemini.google.com). A free account is enough.
+2. Fill in the TEACHER'S CHOICES below (replace the text in [brackets]).
+3. Copy everything in this file and paste it into Gemini.
+4. Check the answer: every line of the transcript should start with times like [01:26–01:40].
+   If Gemini gives a summary instead, write: "Please give me the full word-for-word transcript."
+5. Copy Gemini's whole answer. You will paste it in step 3 (3-make-the-lesson.txt).
+
+==== TEACHER'S CHOICES ====
+VIDEO LINK: [paste the YouTube link]
+LEARNERS: [e.g. adults at work, university students, architects]
+LEVEL: [e.g. B1]
+CLASS LENGTH: [e.g. 45 minutes]
+NUMBER OF CLIPS: [2 or 3 for 30–60 minutes; 3 or 4 for longer classes]
+FOCUS (optional): [e.g. vocabulary for work, travel, the past simple]
+===========================
+
+I am an English teacher preparing a listening lesson for the learners above. Watch the video and give me the information below. Accuracy matters more than speed: do not paraphrase, invent or guess. Write every time as plain text in [mm:ss] format, never as a link.
+
+1. VIDEO DETAILS
+- Exact title, channel name, total length (mm:ss) and the video link.
+- The speakers: their names if they say them or they appear on screen or in the title; otherwise a role (Narrator, Interviewer, Guide, Customer). Never "Speaker 1" or "Speaker 2".
+- The speakers' accents.
+
+2. WORD-FOR-WORD TRANSCRIPT WITH TIMES
+- The full transcript, word for word, in blocks of about 10 to 20 seconds.
+- Start each block with its start and end time: [mm:ss–mm:ss].
+- Start each turn with the speaker's name or role and a colon, e.g. "Rob Mills: …".
+- Mark anything unclear as [UNCERTAIN], and music or noise as [Music] or [Noise].
+- Mark the intro, any advert or sponsor message, the outro and the credits, with their times.
+
+3. SUGGESTED CLIPS
+Suggest the number of clips chosen above, each 60 to 120 seconds long, with exact start and end times. Start and end at a natural pause, never in the middle of a sentence. Skip the intro, adverts and credits. For each clip give:
+- a one-line summary;
+- 8 to 12 useful words or phrases for these learners, each with the time it is said.
+
+4. LANGUAGE AND DISCUSSION
+- Grammar: 3 to 5 sentences from the video that show a structure worth teaching at this level, each with its time. Only sentences that are correct in written English.
+- Discussion: 3 to 5 moments that could start a good class discussion, each with its time and a one-line reason.
+
+5. CHECKS
+- Which parts have music, people speaking at the same time, or very fast speech?
+- Is anything shown only on screen (text, charts, pictures) that learners would need to see?
+- Which times are you least sure about?
+
+Give everything as one plain-text answer I can copy, without tables or links. Do not summarise instead of transcribing.

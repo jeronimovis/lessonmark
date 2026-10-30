@@ -1,0 +1,36 @@
+LESSONMARK · STEP 3 · TURN THE SCRIPT INTO A LESSON
+
+HOW TO USE THIS FILE
+1. Open an AI assistant. These work well, also on free accounts:
+   DeepSeek (chat.deepseek.com), Claude (claude.ai), ChatGPT (chatgpt.com).
+2. Attach the file SKILL.md from this folder (the + or paperclip button).
+3. Fill in the TEACHER'S CHOICES below.
+4. Paste the script from step 1 at the end of this file, where it says SCRIPT.
+5. Copy everything in this file and send it to the AI.
+6. The AI answers with your lesson in a box (a code block). Then either:
+   - copy the box (or click its copy button), open
+     https://jeronimovis.github.io/lessonmark/online/
+     paste it into "or paste the lesson text" and click "Show the lesson"; or
+   - click the box's download button and open the downloaded file on that same page.
+   For your own audio or video files: save the lesson as data.md in the folder
+   where index.html and your files are, then double-click index.html.
+7. If the page shows a red box, copy its lines, paste them back to the AI and ask it to fix them.
+
+==== TEACHER'S CHOICES ====
+VIDEO OR FILE: [the YouTube link, or audio.mp3 / video.mp4]
+LEARNERS: [e.g. adults at work, university students, architects]
+LEVEL: [e.g. B1]
+CLASS LENGTH: [e.g. 45 minutes]
+STYLE: [classic / modern / editorial / blueprint / concrete / notebook]
+EXTRAS (optional): [e.g. more speaking, a role play, a focus on the past simple]
+===========================
+
+Follow the attached SKILL.md exactly to create a LessonMark lesson file from the teacher's choices above and the script below.
+- Use only the notation in SKILL.md (Part B). Check the file against its Final checklist before you answer.
+- Use the video link or file name above in every [play] line, with times taken from the script.
+- Skip the intro, adverts and credits.
+- Put the whole lesson in ONE code block that starts with ```markdown and contains nothing else.
+- After the code block, give me a short summary: the clips with their times, the vocabulary, the grammar point and anything I need to prepare.
+
+SCRIPT:
+[paste the answer from step 1 here]

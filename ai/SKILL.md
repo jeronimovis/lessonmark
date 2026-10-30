@@ -1,14 +1,382 @@
-# LessonMark notation – specification (version 0.9)
+---
+name: lessonmark-lesson
+description: Turn a YouTube link or an audio/video file and its timestamped script into a complete LessonMark data.md lesson for any level from A1 to C2: clips, vocabulary, grammar, listening tasks and discussion.
+---
 
-LessonMark turns ONE plain-text lesson file (usually `data.md`) into an interactive lesson page.
-The page is strict: anything not written exactly as described here is shown as plain text,
-breaks an exercise, or appears in a red "Check your lesson file" box. Follow this document
-literally. When in doubt, copy the examples and change only the words.
+# LessonMark lesson builder
 
-Contents: 1 Output · 2 Ten golden rules · 3 File skeleton · 4 Header · 5 Structure ·
-6 Tag overview · 7 Presentation blocks · 8 Exercises · 9 Where gaps work · 10 Answers and checking ·
-11 Common mistakes · 12 Final checklist · 13 Complete example
+You turn a video (a YouTube link or the teacher's own audio or video file) and its timestamped
+script into ONE lesson file, `data.md`, written in LessonMark notation, for learners of English at
+any level from A1 to C2. LessonMark's `index.html` reads that file and builds an interactive lesson
+page. The page is strict: if the notation is wrong, exercises break or a red warning box appears.
+So this skill has two parts:
 
+- **Part A – Method:** how to plan and write a good lesson at the right level (sections 0–11).
+- **Part B – Notation:** the complete LessonMark specification. Every line you write must follow it
+  exactly. When Part A and Part B seem to differ, Part B wins.
+
+Read the whole skill before you start. Write nothing that is not in Part B.
+
+LessonMark: https://jeronimovis.github.io/lessonmark/ · Reference: https://jeronimovis.github.io/lessonmark/LessonMark-reference.html
+
+
+# PART A – METHOD
+
+## 0. Settle the brief
+
+Use what the teacher gives you. For anything missing, use these defaults and state them in the
+summary you give after the file (never inside it). Ask a question only if the video link or file
+name, or the script, is missing.
+
+| Choice | Default |
+|---|---|
+| Level | B1. Accept A1, A2, B1, B2, C1 or C2; "pre-intermediate" = A2, "intermediate" = B1, "upper-intermediate" = B2, "advanced" = C1, "proficiency" = C2. For a mixed group (e.g. "B1–B2"), write for the lower level and add one stretch task for the higher one. |
+| Learners | Adults. If the teacher names a group (teenagers, architects, nurses, university students), angle vocabulary, examples and discussion to it. |
+| Length | 30–60 minutes; aim for 45 unless told otherwise. |
+| Media | YouTube clips from the given link. Use `audio.mp3` / `video.mp4` (or the names the teacher gives) only if the teacher says those files exist. |
+| Images | None, unless the teacher will supply them. Then call them `image01.png`, `image02.png`… and say so in the summary. |
+| Style | `classic`. Use another style only if the teacher names one of: modern, editorial, blueprint, concrete, notebook. |
+
+Never invent a link, a file, a timestamp, a quotation or a fact that is not in the material.
+
+## 1. Read the script like a teacher
+
+1. Find the topic, the speakers, the structure and the story arc.
+2. **Name the speakers.** Take names from the script, the video title or description, or from
+   self-introductions ("I'm Rob Mills…"). If a speaker has no name, use a role: `Narrator`,
+   `Interviewer`, `Guide`, `Customer`. Never write `Speaker 1` or `Speaker 2` anywhere in the lesson.
+3. Mark where the real content starts and ends: skip intros, sponsor messages, calls to subscribe,
+   credits and music.
+4. Mark natural sections: topic shifts, a new speaker, a new stage of the story.
+5. Flag lines marked as uncertain (`[UNCERTAIN]`, `[inaudible]`, `(?)`) and never build an answer
+   on them.
+6. **Notice spoken slips.** Speech often contains things that are wrong or poor in writing:
+   dangling participles ("Walking into the space, your eye is drawn…": the eye is not walking),
+   agreement slips ("textures and tones that makes you…"), false starts, run-on sentences.
+   Such a line may be quoted in a transcript, but it must NEVER be presented as a model answer,
+   a correct sentence in `[fix]`, or a target structure. It can be the WRONG sentence of a `[fix]`
+   item only if the correction is clear and uncontroversial.
+7. **Judge the difficulty against the level (section 2).** Look at speed, accents, background
+   noise, overlapping speakers and how much of the vocabulary the learners will know. If the video
+   is too hard for the level, choose its clearest, slowest stretches, shorten the clips, add plays
+   and pre-teaching, and say in the summary that the material is demanding for this level.
+
+## 2. Fit the level
+
+Everything in the lesson follows the learners' level: the clips, the words, the grammar, the task
+types, the wording of every question and the kind of speaking. First find the level in the table,
+then read its profile. Every other section of Part A refers back here.
+
+### 2.1 At a glance
+
+| | A1 | A2 | B1 | B2 | C1 | C2 |
+|---|---|---|---|---|---|---|
+| Clip length | 15–45 s | 30–60 s | 45–90 s | 60–120 s | 60–150 s | 90–180 s |
+| Clips (45 min) | 1–2 | 2 | 2–3 | 2–3 | 2–3 | 2 |
+| Plays per clip | 3 | 2–3 | 2 | 2 | 1–2 | 1–2 |
+| Key words | 5–8 | 6–8 | 6–10 | 8–12 | 8–14 | 10–16 |
+| Gaps per text | 4–6 | 5–6 | 6–8 | 8–10 | 8–10 | 8–12 |
+| Items per exercise | 4–5 | 5–6 | 5–8 | 6–8 | 6–8 | 6–8 |
+| Max words in a question or statement | 10 | 12 | 15 | 20 | 25 | 25 |
+| Speaking | 3–5 min | 5–8 min | 8–12 min | 10–15 min | 10–15 min | 12–15 min |
+
+"Plays per clip" means how many exercises use that clip: repeat the same `[play]` line in each one,
+e.g. gist first, then detail, then a language task.
+
+### 2.2 Exercise types by level
+
+| Tag | A1 | A2 | B1 | B2 | C1 | C2 |
+|---|---|---|---|---|---|---|
+| `[tf]` | yes | yes | yes | yes | yes | yes |
+| `[m]` | 3 short options | 3 options | 3–4 | 3–4 | 4 | 4 |
+| `[match]` | yes | yes | yes | yes | yes | yes |
+| `[bank]` gaps | yes | yes | yes | yes | yes | yes |
+| `{gap}` with no bank | no | short, common words | yes | yes | yes | yes |
+| `{*right\|wrong}` dropdowns | yes | yes | yes | yes | yes | yes |
+| `[short]` | 1 word, names and numbers | 1–2 words | 1–3 words | 1–3 words | 1–3 words | 1–3 words |
+| `[order]` | 3–4 items | 3–5 | 4–6 | 4–8 | 4–8 | 4–8 |
+| `[sort]`, `[odd]` | yes | yes | yes | yes | yes | yes |
+| `[long]` | no | no | 1–2 sentences | 1–3 sentences | 2–3 sentences | 2–3 sentences |
+| `[fix]` | no | no | one clear, common mistake | yes | subtle mistakes | subtle mistakes |
+| `{word}(BASE)` word formation | no | no | no | common suffixes | yes | yes |
+| `[transform]` | no | no | no | yes | yes | yes |
+| `[read]` | no | short, 60–100 words | 100–200 words | 200–300 words | 250–400 words | 300–450 words |
+
+### 2.3 Level profiles
+
+**A1 – Beginner.** Learners understand slow, clear speech about very familiar things: themselves,
+family, numbers, prices, times, places in a town, daily routine.
+- *Material:* one speaker if possible, slow and clear, with what is said visible on screen. Avoid
+  fast or overlapping speech. Use the shortest, clearest stretches.
+- *Words:* concrete nouns, common verbs and adjectives, numbers, colours, days, places. Pre-teach
+  ALL key words before listening.
+- *Grammar (recognition, no grammar terms in rubrics):* *be*, *have got*, present simple, *there
+  is / there are*, *can* for ability, imperatives, plurals, *this / that*, possessive adjectives,
+  prepositions of place.
+- *Tasks:* listen for single words, numbers, names and yes/no facts. Use `[bank]` for every gap
+  fill. Order of plays: first a very easy task (one `[m]` or two `[tf]`), then a slightly harder one.
+- *Wording:* rubrics of 3–8 words in the imperative: "Listen. Choose True or False." Statements and
+  options use words from the clip and the key words, present simple, no negatives.
+- *Transcript:* put `[transcript]` after the first play: learners may read it during the last play.
+- *Speaking:* 2–3 personal questions ("Do you have a garden?") with a `[phrases]` box of model
+  answers ("Yes, I do. / No, I don't. / I have…"). Pairs. No opinions, no debate.
+
+**A2 – Elementary.** Learners understand phrases and frequent words about personal and everyday
+topics (shopping, work, the local area, past weekends) and catch the main point of short, clear
+messages.
+- *Material:* clear, moderate speed, standard accents; short sections with a clear topic.
+- *Words:* everyday topic words, simple collocations (*take a photo*, *go shopping*), very common
+  phrasal verbs (*get up*, *look for*).
+- *Grammar:* past simple (regular and irregular), present continuous, *going to*, comparatives and
+  superlatives, *some / any*, *much / many*, adverbs of frequency, *have to*, *can / could* for
+  requests.
+- *Tasks:* gist with `[m]` or `[tf]`, then detail with a `[bank]` or short gaps. `[order]` works well
+  for a story or a process. Keep `[short]` answers to 1–2 words.
+- *Wording:* short sentences, common words, no idioms, no passives in questions. Rubrics of up to
+  12 words.
+- *Speaking:* questions about the learners' own experience, linked to the clip ("What did you do
+  last weekend?"), with sentence starters in `[phrases]`. A very simple role play (ordering,
+  asking for directions) is fine.
+
+**B1 – Intermediate.** Learners understand the main points of clear, standard speech on familiar
+matters, follow a simple story or explanation, describe experiences and give short reasons.
+- *Material:* natural but clear speech; an interview, a tour, a short documentary section.
+- *Words:* topic words, collocations, common phrasal verbs (*find out*, *set up*), useful chunks
+  for speaking (*the thing is…*, *in my opinion*).
+- *Grammar:* present perfect and past simple, past continuous, *used to*, *will* and *going to*,
+  first and second conditionals, modals of advice and possibility (*should*, *might*, *must*),
+  defining relative clauses (*who / which / that*), verb + *-ing* or infinitive, present and past
+  simple passive.
+- *Tasks:* gist with `[m]`, detail with gaps (bank optional), `[short]`, `[order]`; one simple `[fix]`
+  on the grammar point; a short `[long]` asking for a reason ("Why does he like…?").
+- *Wording:* sentences of up to 15 words, no idioms in questions; paraphrase the script with common
+  words.
+- *Speaking:* opinion questions that ask for reasons ("Would you like to live here? Why?"), a
+  `[phrases]` box for giving and asking for opinions, a `[timer]`. A simple role play is fine.
+
+**B2 – Upper-intermediate.** Learners understand the main ideas of complex speech on concrete and
+abstract topics, including discussions in their own field, and can argue a point of view.
+- *Material:* natural speed, some variety of accents, interviews and talks.
+- *Words:* topic vocabulary, strong collocations, phrasal verbs, some idioms, words learners can
+  reuse at work or in their studies.
+- *Grammar:* passives in all tenses, reported speech, third conditional, *wish / if only*, modals of
+  deduction (present and past), non-defining relative clauses, causative *have / get*, linking
+  words (*although*, *however*, *despite*, *whereas*).
+- *Tasks:* all types. Gist and detail, `[long]` for explanation, word formation with common
+  suffixes, `[transform]` and `[fix]` on the grammar point.
+- *Wording:* natural, written about one level lower (B1 words). Distractors may test
+  misunderstanding of detail.
+- *Speaking:* trade-offs and problems to solve, a `[phrases]` box for agreeing, disagreeing and
+  balancing arguments, a role play for 50–60 minute classes.
+
+**C1 – Advanced.** Learners understand extended speech even when it is not clearly structured,
+follow implicit meaning, attitude and purpose, and use language flexibly at work.
+- *Material:* any natural speech, including fast, informal or technical talk.
+- *Words:* collocations, idioms, academic and field-specific words, register and connotation.
+- *Grammar:* passive reporting (*is said to*), participle clauses, inversion, cleft and pseudo-cleft
+  sentences, nominalisation, mixed conditionals, reduced relative clauses, modal nuance.
+- *Tasks:* all types, with emphasis on inference: `[m]` about attitude, opinion and purpose,
+  `[long]` that asks why or what is implied, `[transform]`, word formation with prefixes and
+  negatives, `[fix]` with subtle mistakes.
+- *Wording:* natural, written at B2. Wrong options must be plausible to a careful listener.
+- *Speaking:* debate, evaluation and problem-solving linked to the learners' field.
+
+**C2 – Proficiency.** Learners understand any spoken English at natural speed, including strong
+accents, humour, irony and implied meaning.
+- *Material:* long stretches, natural or fast speech, several speakers, subtle arguments.
+- *Words:* idioms, low-frequency words, connotation, register, precise synonyms.
+- *Grammar:* stylistic choices rather than forms: emphasis and fronting, ellipsis and substitution,
+  hedging, shifts of register, advanced word formation and collocation.
+- *Tasks:* inference, the speaker's attitude and purpose, what is implied but not said, paraphrase
+  of difficult lines, `[transform]` at the top of its range, `[long]` that asks for evaluation.
+- *Wording:* natural and precise, written at C1.
+- *Speaking:* nuanced debate, summarising and evaluating the speakers' arguments, presenting a
+  counter-argument.
+
+## 3. Choose the clips
+
+- Use the number and length of clips for the level (section 2.1). For classes longer than 60
+  minutes, add one clip. A short recording of the teacher's own may be used whole.
+- Start and end at sentence boundaries. Use only timestamps that appear in the script: start at
+  or just before the first word (round down), end just after the last word (round up).
+- Every question about a clip must be answerable from that clip alone, and questions follow the
+  order of the clip.
+- Give each clip a short, telling name: `"Clip A – the land and the river"`. Letter the clips
+  A, B, C in order.
+- To play a clip again, repeat the same `[play]` line in the next exercise.
+
+## 4. Mine the language
+
+Work clip by clip. Keep a private list with the timestamp of every item.
+
+**Vocabulary (number by level, section 2.1).** Choose words the learners need to understand the
+clips and will reuse, at their level (section 2.3). Prefer, in this order:
+1. Words the learners will reuse in their own life, studies or field.
+2. Strong collocations and chunks (*take a photo*, *find out*, *seek respite*).
+3. Phrasal verbs and, from B2, idioms.
+4. From B2, academic and field-specific words.
+
+Skip proper nouns, words learners at this level surely know, words far above their level that
+they do not need for the task, and words whose meaning in context is unusual or misleading.
+
+**Grammar (1–2 points; up to 3 for longer classes).** Only structures that really occur in the
+script, are correct in standard written English, AND are listed for the level in section 2.3.
+When the speaker's version is a slip (section 1.6), build the exercise on a corrected or different
+sentence and say so in `[teacher]`. If the script has nothing suitable for the level, choose
+vocabulary work instead and say so in the summary.
+
+**Discussion angles (2–4).** At A1–A2: personal, concrete questions linked to the clip. From B1:
+open questions that need an opinion plus reasons: a dilemma or trade-off, a debatable claim, a link
+to the learners' own lives or work, an ethical issue, a "what would you have done?" moment. Never
+questions with a factual answer.
+
+## 5. Build the lesson arc
+
+Use `# Part` headings for stages and `## Title | Interaction · minutes` for each exercise.
+Interaction is `Individual`, `Pairs`, `Groups` or `Whole class`. The minutes of all `##`
+exercises must add up to the class length. A typical 30–60 minute arc (drop what does not fit;
+use the task types allowed for the level, section 2.2):
+
+| Stage | Minutes | Content |
+|---|---|---|
+| 1 Lead-in | 3–5 | A `[quote]` (≤15 words, exact, correctly attributed) or an `[img]`, plus 1–2 `[discuss]` prompts that activate ideas and make students predict. At A1–A2: one simple personal question. |
+| 2 Key vocabulary | 4–8 | `[match]` of the key words needed for the first listening, or a `[vocab]` list. More time at A1–A2. |
+| 3 Listening for gist | 5–8 | First play; 3–4 `[m]` or `[tf]` items on MAIN ideas only (who, where, why, what overall), not details. |
+| 4 Listening for detail | 8–12 | Same clip again; a gap fill from the exact transcript words (a `[bank]` at A1–A2), or a table with numbers, dates and names. `[transcript]` right after the `[play]` line. |
+| 5 Second clip | 5–10 | `[short]`, `[order]`, `[m]`, `[tf]`, `[long]` (from B1) or a `[timeline]`. |
+| 6 Language focus | 5–10 | One or two exercises on the grammar and vocabulary, with the task types for the level. |
+| 7 Speaking | by level | `[discuss]` prompts with a `[phrases]` box and a `[timer]`; a role play with `[roles]` when the level and time allow. |
+| 8 Teacher's notes | – | One `[teacher]` block at the very end (section 8). |
+
+For classes longer than 60 minutes: a third clip, an original `[read]` text marked
+`| Original text written for this lesson` (length by level, section 2.2), more language focus, a
+`[note "Did you know?"]`, a fuller role play.
+
+Keep each `##` exercise to one task type (two at most, e.g. `[play]` + `[tf]`). One `> ` rubric
+per exercise, written to students, saying exactly what to do, worded for the level.
+
+## 6. Choose the right tag
+
+| What students do | Tag |
+|---|---|
+| Type a missing word in a text | `{answer}` gap |
+| Choose a missing word from a list | `[bank]` with gaps, or `{*right\|wrong}` dropdowns |
+| Form a word from a base word | `{answer}(BASE)` |
+| Decide if a statement is true | `[tf]` |
+| Choose one answer to a question | `[m]` |
+| Answer in 1–3 words | `[short]` |
+| Answer in sentences / explain / rewrite freely | `[long]` |
+| Correct a sentence that contains a mistake | `[fix]` |
+| Rewrite a CORRECT sentence using a given word | `[transform]` |
+| Pair terms with meanings | `[match]` |
+| Put events in order | `[order]` |
+| Find the odd one | `[odd]` |
+| Put words into groups | `[sort]` |
+| Talk | `[discuss]` |
+
+There is no other exercise type. Never use `[fix]` for a sentence that is already correct. Never
+use a tag the level does not allow (section 2.2).
+
+## 7. Rules for good items
+
+**Wording for the level.** Write rubrics, questions, options and definitions in language about one
+level below the learners' (at A1, the simplest English possible), within the word limits of
+section 2.1. The challenge is the listening, not the question.
+
+**Gap fills.** The answer is the exact word(s) from the transcript; the sentence around it stays
+faithful to the clip. One gap per idea; never two gaps side by side; 1–3 words per gap (1 word at
+A1–A2). Accept real variants with `|`. Do not gap words students could guess without listening.
+
+**Word bank.** The page adds the gap answers to the bank itself. Extra words after `+`: 2–3
+plausible distractors of the same word class, never one of the answers. At A1, 1–2 extras.
+
+**Dropdowns.** 3 options, one `*`, all grammatical-looking.
+
+**Multiple choice.** Number of options by level (section 2.2), exactly one correct; distractors
+plausible (they reuse words from the clip or a likely misunderstanding), similar in length, no
+"all/none of the above". Gist questions ask about main ideas; detail questions about facts; from
+C1, also attitude and purpose.
+
+**True/false.** Balance true and false. Paraphrase the script so students must understand, not
+match words (at A1–A2 the paraphrase stays close to the clip's words). No trick negatives, no
+double negatives.
+
+**Short answers.** 1–3 words (fewer at A1–A2). List every reasonable answer with `|`: with and
+without an article, singular and plural if both fit, numbers as digits and words.
+
+**Long answers.** Need explanation or, from C1, inference. ONE suggested answer, of the length for
+the level (section 2.2).
+
+**Matching.** 4–8 pairs. Definitions of similar length (≤12 words; ≤8 at A1–A2), in plain English
+below the learners' level, never containing the term itself.
+
+**Error correction (`[fix]`).** Each sentence has exactly ONE clear mistake of a type learners at
+this level make, linked to the grammar point. The answer is the minimal correction (change as
+little as possible). Accept every correct correction with `|`.
+
+**Key word transformations (`[transform]`, B2 and above).** The first sentence is correct and
+natural. The new sentence means exactly the same. The answer is 2–5 words, includes the key word
+unchanged, and there is text both before and after the gap. Accept contracted and full forms with
+`|`. Check the finished sentence word by word: is it correct English with the same meaning?
+
+**Odd one out / categorising.** Exactly one defensible odd one; each item fits one category only.
+
+**Discussion.** Specific to the clip, at the level of section 2.3, linked to the learners' lives or
+field where natural.
+
+**Quotes.** At most 15 words, exact, attributed to the person who said them.
+
+**Transcripts.** Only for clips used in the lesson; one line per turn as `Name: text`.
+
+## 8. The `[teacher]` block
+
+One block at the very end. Include:
+- the video (title, channel, speakers) and the level the lesson is written for;
+- each clip with times and content, and how many times to play it;
+- the timing plan and what to cut if time runs short;
+- the grammar points with the script lines and times they come from, and any correction you made
+  to a spoken slip;
+- how to make it easier or harder (e.g. "for weaker groups, play Clip A a third time");
+- ideas for fast finishers or homework.
+
+Write it in Markdown (paragraphs, `**bold**`, `- lists`). No gaps.
+
+## 9. Respect the source
+
+- Credit the video in `meta:` and in `[teacher]`.
+- Use transcript text only inside `[transcript]` blocks and gap-fill sentences, and only for clips
+  used in the lesson. Keep `[quote]` under 15 words.
+- `[read]` texts are your own writing, never copied from articles.
+
+## 10. Write, then validate
+
+1. Write the file in order, copying the patterns of Part B and changing only the words.
+2. Check the level: clip lengths, number of key words, task types, question length and speaking
+   all match section 2 for this level.
+3. Validate the notation line by line with the Final checklist in Part B, section 12. For each
+   block tag, find its closing tag. For each `[transform]`, count the `=` signs. For each `[m]`,
+   count the `*`. For each `[bank +]`, compare the extras with the answers. Search the file for `“`
+   inside tags, for `Speaker`, for lines starting with `[` that are not tags, and for ```` ``` ````.
+4. Add up the minutes in the `##` lines; they must equal the class length.
+5. Re-read every answer: is it correct English, is it really in the clip, are all reasonable
+   variants accepted?
+6. Fix anything that fails and validate again.
+
+## 11. Deliver
+
+- **If you can create files:** create `data.md` (or the name the teacher asked for) containing only
+  the lesson.
+- **If you answer in a chat:** put the entire file in ONE code block that starts with
+  ```` ```markdown ```` and ends with ```` ``` ````. Nothing but the lesson goes inside the block.
+- **After the file** (outside the code block), give the teacher a short summary: level and class
+  length; clips with times, content and number of plays; vocabulary chosen; grammar points with
+  their source lines; discussion focus; any assumptions (level, learners, length, media); whether
+  the material is demanding for the level; anything the teacher must supply (images, local media
+  files). Also tell them: "Open the lesson. If a red box appears, paste its lines back to me and I
+  will fix them."
+
+
+# PART B – LESSONMARK NOTATION
 
 ## 1. Output
 
