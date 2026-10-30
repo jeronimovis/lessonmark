@@ -6,16 +6,11 @@ HOW TO USE THIS FILE
 2. Attach the file SKILL.md from this folder (the + or paperclip button).
 3. Fill in the TEACHER'S CHOICES below.
 4. Paste the script from step 1 at the end of this file, where it says SCRIPT.
-5. Copy everything in this file and send it to the AI.
-6. The AI answers with your lesson in a box (a code block). Then either:
-   - copy the box (or click its copy button), open
-     https://jeronimovis.github.io/lessonmark/online/
-     paste it into "or paste the lesson text" and click "Show the lesson"; or
-   - click the box's download button and open the downloaded file on that same page.
-   For your own audio or video files: save the lesson as data.md in the folder
-   where index.html and your files are, then double-click index.html.
-7. If the page shows a red box, copy its lines, paste them back to the AI and ask it to fix them.
+5. Copy the prompt below + the script and send it to the AI.
+6. The AI answers with your lesson in a box (a code block). Then 
+Copy the answer or download it as an .md file and paste it or upload it in your local index.html next to your audio or video files or in https://jeronimovis.github.io/lessonmark/online/ if your meadia is a youtube link.
 
+PROMT
 ==== TEACHER'S CHOICES ====
 VIDEO OR FILE: [the YouTube link, or audio.mp3 / video.mp4]
 LEARNERS: [e.g. adults at work, university students, architects]
