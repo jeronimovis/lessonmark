@@ -15,9 +15,15 @@ and LessonMark builds a page your students can use in class, at home or on their
 </p>
 
 <p align="center">
-  <a href="https://jeronimovis.github.io/lessonmark/"><b>Visit the website</b></a> ·
-  <a href="https://jeronimovis.github.io/lessonmark/lessons/house-tour/">Try a finished lesson</a> ·
-  <a href="assets/starter-kit.zip">Download the starter kit</a>
+  <a href="https://jeronimovis.github.io/lessonmark/"><img src="assets/buttons/visit-website.svg" alt="Visit the website" width="280"></a>
+  <a href="https://jeronimovis.github.io/lessonmark/lessons/house-tour/"><img src="assets/buttons/try-lesson.svg" alt="Try a finished lesson" width="280"></a>
+  <a href="https://github.com/jeronimovis/lessonmark/raw/main/assets/starter-kit.zip"><img src="assets/buttons/download-kit.svg" alt="Download the starter kit" width="280"></a>
+</p>
+
+<p align="center">
+  <a href="https://jeronimovis.github.io/lessonmark/lessons/house-tour/">
+    <img src="assets/lesson-preview.png" alt="A LessonMark lesson: a video clip, true or false questions with Check, Show and Clear buttons, and the Appearance menu with six styles" width="820">
+  </a>
 </p>
 
 ---
@@ -66,7 +72,7 @@ Teachers write lessons by hand in Notepad or TextEdit, or ask an AI to write the
 
 ## Downloads
 
-- **[Starter kit](assets/starter-kit.zip)**: the page, a demo lesson, a short audio and video, and the AI files.
+- **[Starter kit](https://github.com/jeronimovis/lessonmark/raw/main/assets/starter-kit.zip)**: the page, a demo lesson, a short audio and video, and the AI files.
 - **[AI files](ai/)**: the three prompts and `SKILL.md`, which teaches any AI assistant the LessonMark format.
 
 ## For the curious
