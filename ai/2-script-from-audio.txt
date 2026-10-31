@@ -6,19 +6,25 @@ audio.mp3 or video.mp4 (for example, a recording of yourself or a podcast extrac
 HOW TO USE THIS FILE
 1. Open Gemini (gemini.google.com). A free account is enough.
 2. Attach your audio or video file (the + or paperclip button).
-3. Fill in the TEACHER'S CHOICES below, copy everything in this file and paste it into Gemini.
-4. Check that every line of the transcript starts with times like [00:05–00:15].
+3. Fill in the TEACHER'S CHOICES below, copy the prompt and paste it into Gemini.
+   You answer them only here: they travel with the script to step 3.
+4. Check that the answer starts with your choices, and that every line of the transcript
+   starts with times like [00:05–00:15].
 5. Copy Gemini's whole answer. You will paste it in step 3 (3-make-the-lesson.txt).
 
-PROMPT
+PROMPT:
 ==== TEACHER'S CHOICES ====
+FILE NAME: [audio.mp3 or video.mp4]
 LEARNERS: [e.g. adults at work]
 LEVEL: [e.g. B1]
 CLASS LENGTH: [e.g. 30 minutes]
+STYLE: [classic / modern / editorial / blueprint / concrete / notebook]
+FOCUS AND EXTRAS (optional): [e.g. the past simple, more speaking, a role play]
 ===========================
 
 I am an English teacher. Listen to the attached file and give me:
 
+0. Start your answer with the TEACHER'S CHOICES block above, copied exactly as I wrote it, including the ==== lines. Another assistant will use it to write the lesson.
 1. A word-for-word transcript, in blocks of about 10 seconds. Start each block with its start and end time as plain text: [mm:ss–mm:ss]. Start each turn with the speaker's name or role and a colon (e.g. "Teacher: …"). Mark anything unclear as [UNCERTAIN] and music as [Music].
 2. The total length of the file (mm:ss).
 3. One or two good clips of 20 to 90 seconds, with exact start and end times at natural pauses, and a one-line summary of each.

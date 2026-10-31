@@ -2,23 +2,29 @@ LESSONMARK · STEP 1 · GET THE SCRIPT OF A YOUTUBE VIDEO
 
 HOW TO USE THIS FILE
 1. Open Gemini (gemini.google.com). A free account is enough.
-2. Fill in the TEACHER'S CHOICES below (replace the text in [brackets]).
-3. Copy the prompt and paste it into Gemini.
-4. Check the answer: every line of the transcript should start with times like [01:26–01:40].
+2. Fill in YOUR CHOICES below (replace the text in [brackets]).
+   This is the only place you answer them: they travel with the script to step 3.
+3. Copy everything in this file and paste it into Gemini.
+4. Check the answer. It should start with your choices, and every line of the transcript
+   should start with times like [01:26–01:40].
    If Gemini gives a summary instead, write: "Please give me the full word-for-word transcript."
-5. Copy Gemini's whole answer. You will paste it in step 3 (3-make-the-lesson.txt).
+5. Copy Gemini's whole answer, from the first line to the last.
+   You will paste it into 3-make-the-lesson.txt.
 
-PROMPT:
 ==== TEACHER'S CHOICES ====
 VIDEO LINK: [paste the YouTube link]
 LEARNERS: [e.g. adults at work, university students, architects]
 LEVEL: [e.g. B1]
 CLASS LENGTH: [e.g. 45 minutes]
 NUMBER OF CLIPS: [2 or 3 for 30–60 minutes; 3 or 4 for longer classes]
-FOCUS (optional): [e.g. vocabulary for work, travel, the past simple]
+STYLE: [classic / modern / editorial / blueprint / concrete / notebook]
+FOCUS AND EXTRAS (optional): [e.g. vocabulary for work, the past simple, more speaking, a role play]
 ===========================
 
 I am an English teacher preparing a listening lesson for the learners above. Watch the video and give me the information below. Accuracy matters more than speed: do not paraphrase, invent or guess. Write every time as plain text in [mm:ss] format, never as a link.
+
+0. MY CHOICES
+Start your answer with the TEACHER'S CHOICES block above, copied exactly as I wrote it, including the ==== lines. Another assistant will use it to write the lesson.
 
 1. VIDEO DETAILS
 - Exact title, channel name, total length (mm:ss) and the video link.
