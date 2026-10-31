@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="LessonMark 0.10">
+<meta name="generator" content="LessonMark 0.11">
 <title>LessonMark</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22%3E%3Crect width=%22120%22 height=%22120%22 rx=%2214%22 fill=%22%23ecebe7%22/%3E%3Crect x=%2218%22 y=%2218%22 width=%2253.0%22 height=%2253.0%22 rx=%224%22 fill=%22%231c1e21%22/%3E%3Cpath d=%22M55.6 60.4H55.2L52 58.9H37.9V57H54.7L51.3 57.9L57.4 49L58.2 49.2ZM42.6 30.3V58.9H30.8V58.1L34.1 57.2V30.3L30.8 29.4V28.6H45.9V29.4Z%22 fill=%22%23ecebe7%22/%3E%3Cpath d=%22M82.2 21.2H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M82.2 36.8H102.0%22 stroke=%22%231f3fb8%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M82.2 52.2H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M82.2 67.8H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M21.2 83.2H102.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M21.2 98.8H74.0%22 stroke=%22%231c1e21%22 stroke-width=%226.5%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
 <script>
@@ -598,7 +598,19 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   function toSec(t) { return t.split(':').reduce(function (s, p) { return s * 60 + Number(p); }, 0); }
   function fmt(s) { s = Math.max(0, Math.round(s)); var h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return (h ? h + ':' + pad(m) : m) + ':' + pad(x); }
-  function warn(line, msg) { W.push({ line: line + 1, msg: msg }); }
+  function warn(line, msg) {
+    for (var i = 0; i < W.length; i++) if (W[i].line === line + 1 && W[i].msg === msg) return;
+    W.push({ line: line + 1, msg: msg });
+  }
+  // Links may only open web pages (http, https), email (mailto) or files on the same site.
+  // Anything else, such as javascript: or data:, could run code, so it is shown as plain text.
+  function safeUrl(url) {
+    url = String(url).trim();
+    if (/^(https?:|mailto:)/i.test(url)) return url;
+    if (!/^[^\/?#]*:/.test(url) && !/^[\/\\]{2}/.test(url)) return url;
+    warn(curLine, 'This link can\u2019t be opened: ' + url.slice(0, 40) + '. Links must start with https://, http:// or mailto:, or be a file name.');
+    return null;
+  }
   function hasGap(t) { return !NOGAP && /\{[^{}\n]+\}/.test(t); }
   function k(n, txt) { return (n ? '<b>' + n + '</b> ' : '') + txt; }
   function rmMarks(el) { el.classList.remove('ok'); el.classList.remove('bad'); el.classList.remove('shown'); }
@@ -652,7 +664,7 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
       .replace(/`([^`]+)`/g, '<code>$1</code>')
       .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
       .replace(/(^|[^\w*])\*([^*\s][^*]*?)\*(?!\w)/g, '$1<em>$2</em>')
-      .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (_, txt, url) { return safeUrl(url) === null ? txt : '<a href="' + url + '" target="_blank" rel="noopener">' + txt + '</a>'; });
     if (gaps.length) { need(); t = t.replace(/\u0005(\d+)\u0006/g, function (_, i) { return gapHtml(gaps[+i][0], gaps[+i][1]); }); }
     return t;
   }
@@ -874,8 +886,9 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
   }
   function linkHtml(arg) {
     var url = unquoted(arg).split(/\s+/)[0], host = url.replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
-    return '<a class="linkcard" href="' + esc(url) + '" target="_blank" rel="noopener"><span class="lc-body"><span class="lc-t">' + esc(quoted(arg) || host) +
-      '</span><span class="lc-u">' + esc(url.replace(/^https?:\/\//, '')) + '</span></span><span class="lc-a" aria-hidden="true">↗</span></a>';
+    var ok = safeUrl(url) !== null;
+    return (ok ? '<a class="linkcard" href="' + esc(url) + '" target="_blank" rel="noopener">' : '<div class="linkcard">') + '<span class="lc-body"><span class="lc-t">' + esc(quoted(arg) || host) +
+      '</span><span class="lc-u">' + esc(url.replace(/^https?:\/\//, '')) + '</span></span>' + (ok ? '<span class="lc-a" aria-hidden="true">↗</span></a>' : '</div>');
   }
 
   /* ---------- media ---------- */
@@ -911,9 +924,10 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
 
   /* ---------- block parser ---------- */
   function blocks(L, start, end) {
-    var para = [], i = start, m;
+    var para = [], i = start, m, pstart = start;
     function flush() {
       if (!para.length) return;
+      curLine = pstart;
       var t = para.join(' '); para = [];
       if (hasGap(t)) need();
       var s = inline(t); buf.push('<p>' + s + '</p>');
@@ -995,6 +1009,7 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
         buf.push(ordered ? '<ol>' + lis + '</ol>' : '<ul>' + lis + '</ul>');
         continue;
       }
+      if (!para.length) pstart = i;
       para.push(t); i++;
     }
     flush();
@@ -1374,6 +1389,15 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
 
   var custom = null;
   try { custom = new URLSearchParams(location.search).get('lesson'); } catch (e) {}
+  // ?lesson= opens only files on this same site: a name like venice.md or ../lessons/x/data.md.
+  // A lesson from another website could look as if it came from this one, so it is refused.
+  var foreign = false;
+  if (custom) {
+    try {
+      var lu = new URL(custom, location.href);
+      foreign = lu.origin !== location.origin || lu.protocol !== location.protocol;
+    } catch (e) { foreign = true; }
+  }
   // data.txt is tried when data.md is missing or blocked: some servers hide or refuse .md files
   // (GitHub Pages without .nojekyll turns .md files with a --- header into web pages).
   var NAMES = custom ? [custom] : ['data.md', 'data.txt'];
@@ -1490,7 +1514,8 @@ details.fold > summary{cursor:pointer;font-family:var(--font);font-size:22px;fon
     });
   }
 
-  if (LOCAL) tryLocal();
+  if (foreign) showDrop(LABEL, 'This page only opens lessons from its own website. Download the lesson and choose it here, or paste its text below.');
+  else if (LOCAL) tryLocal();
   else if (window.fetch) {
     var urls = NAMES.slice();                 // data.md, data.txt next to the page, then the repository copies
     NAMES.forEach(function (n) { urls = urls.concat(githubRawUrls(n)); });
