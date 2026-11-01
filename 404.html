@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LessonMark is now LessonRender</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://jeronimovis.github.io/lessonrender/">
+<script>
+(function () {
+  var p = location.pathname.replace(/^\/lessonmark/i, '/lessonrender');
+  // files renamed or moved with the new name
+  p = p.replace(/^\/lessonrender\/(?:assets\/)?LessonMark-reference\.html$/i, '/lessonrender/assets/LessonRender-reference.html');
+  p = p.replace(/^\/lessonrender\/(?:assets\/)?LessonMark-spec\.md$/i, '/lessonrender/assets/LessonRender-spec.md');
+  location.replace('https://jeronimovis.github.io' + p + location.search + location.hash);
+})();
+</script>
+<meta http-equiv="refresh" content="1; url=https://jeronimovis.github.io/lessonrender/">
+<style>
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#fff;color:#1c1e21;font:18px/1.6 Georgia,"Times New Roman",serif;text-align:center;padding:24px;box-sizing:border-box}
+a{color:#1f3fb8;font-weight:600}
+@media (prefers-color-scheme: dark){body{background:#141619;color:#e9e7e2}a{color:#9db0ff}}
+</style>
+</head>
+<body>
+<p>LessonMark is now called LessonRender.<br>Opening <a href="https://jeronimovis.github.io/lessonrender/">the new website</a>…</p>
+</body>
+</html>
