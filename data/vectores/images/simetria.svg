@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="16">
+<defs>
+<marker id="a" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6 0 12z" fill="#2c5a85"/></marker>
+<marker id="c" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5 0 9z" fill="#a8322a"/></marker>
+</defs>
+<line x1="180" y1="16" x2="180" y2="228" stroke="#9c958a" stroke-dasharray="6 5"/>
+<text x="188" y="28" fill="#6d675f" font-size="12" font-family="Inter, system-ui, sans-serif" letter-spacing="1">EJE DE SIMETRÍA (y)</text>
+<path d="M130 193L180 120M230 193L180 120" stroke="#cfc7b8" stroke-dasharray="3 4"/>
+<line x1="180" y1="120" x2="215" y2="59" stroke="#2c5a85" stroke-width="2.8" marker-end="url(#a)"/>
+<line x1="180" y1="120" x2="145" y2="59" stroke="#2c5a85" stroke-width="2.8" marker-end="url(#a)"/>
+<path d="M215 59H183M145 59H177" stroke="#a8322a" stroke-width="1.3" stroke-dasharray="3 3"/>
+<line x1="186" y1="120" x2="210" y2="120" stroke="#a8322a" stroke-width="1.8" marker-end="url(#c)"/>
+<line x1="174" y1="120" x2="150" y2="120" stroke="#a8322a" stroke-width="1.8" marker-end="url(#c)"/>
+<text x="220" y="124" fill="#a8322a" font-style="italic" font-size="14">se anulan</text>
+<circle cx="180" cy="120" r="4" fill="#1c1b19"/>
+<text x="186" y="142" fill="#1c1b19" font-style="italic">P</text>
+<text x="222" y="58" fill="#2c5a85" font-style="italic">E₂</text>
+<text x="118" y="58" fill="#2c5a85" font-style="italic">E₁</text>
+<circle cx="130" cy="207" r="14" fill="#a8322a"/><path d="M124 207h12M130 201v12" stroke="#fff" stroke-width="2.2"/>
+<circle cx="230" cy="207" r="14" fill="#a8322a"/><path d="M224 207h12M230 201v12" stroke="#fff" stroke-width="2.2"/>
+</svg>

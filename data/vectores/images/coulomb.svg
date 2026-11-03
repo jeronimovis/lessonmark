@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 130" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="16">
+<defs><marker id="a" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6 0 12z" fill="#1c1b19"/></marker></defs>
+<line x1="70" y1="65" x2="290" y2="65" stroke="#cfc7b8" stroke-dasharray="2 5"/>
+<path d="M78 104H170M190 104H282" stroke="#cfc7b8"/><path d="M78 99v10M282 99v10" stroke="#cfc7b8"/>
+<text x="180" y="109" text-anchor="middle" fill="#6d675f" font-style="italic">r</text>
+<line x1="94" y1="65" x2="150" y2="65" stroke="#1c1b19" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="266" y1="65" x2="210" y2="65" stroke="#1c1b19" stroke-width="2.5" marker-end="url(#a)"/>
+<circle cx="70" cy="65" r="20" fill="#a8322a"/><path d="M62 65h16M70 57v16" stroke="#fff" stroke-width="2.5"/>
+<circle cx="290" cy="65" r="20" fill="#2c5a85"/><path d="M282 65h16" stroke="#fff" stroke-width="2.5"/>
+<text x="122" y="50" text-anchor="middle" fill="#1c1b19" font-style="italic">F₁₂</text>
+<text x="238" y="50" text-anchor="middle" fill="#1c1b19" font-style="italic">F₂₁</text>
+<text x="70" y="30" text-anchor="middle" fill="#a8322a" font-style="italic" font-size="15">q₁</text>
+<text x="290" y="30" text-anchor="middle" fill="#2c5a85" font-style="italic" font-size="15">q₂</text>
+</svg>

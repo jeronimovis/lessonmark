@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 230" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="16">
+<defs>
+<marker id="v" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto"><path d="M0 0L13 6.5 0 13z" fill="#2c5a85"/></marker>
+<marker id="x" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5 0 9z" fill="#6d675f"/></marker>
+</defs>
+<path d="M40 190H330" stroke="#6d675f" stroke-width="1.2" marker-end="url(#x)"/>
+<path d="M60 210V22" stroke="#6d675f" stroke-width="1.2" marker-end="url(#x)"/>
+<text x="326" y="210" fill="#6d675f" font-style="italic">x</text><text x="68" y="28" fill="#6d675f" font-style="italic">y</text>
+<path d="M190 190V105M60 105H190" stroke="#a8322a" stroke-dasharray="4 4" stroke-width="1.5"/>
+<path d="M60 190H190" stroke="#a8322a" stroke-width="3"/><path d="M60 190V105" stroke="#a8322a" stroke-width="3"/>
+<line x1="60" y1="190" x2="190" y2="105" stroke="#2c5a85" stroke-width="3.2" marker-end="url(#v)"/>
+<path d="M100 190A40 40 0 0 0 93.5 168.2" fill="none" stroke="#1c1b19" stroke-width="1.2"/>
+<text x="106" y="182" fill="#1c1b19" font-style="italic">θ</text>
+<text x="112" y="136" fill="#2c5a85" font-style="italic" font-size="18" font-weight="500" transform="rotate(-33 112 136)">E</text>
+<text x="125" y="212" fill="#a8322a" font-style="italic" text-anchor="middle">Eₓ = E cos θ</text>
+<text x="198" y="152" fill="#a8322a" font-style="italic">Eᵧ = E sen θ</text>
+</svg>
