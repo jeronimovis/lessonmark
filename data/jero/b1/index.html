@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B1 Preliminary · Exam Preparation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..800&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F3EC; --paper-2:#EEE7DA; --card:#FFFCF6;
+    --ink:#1D1B18; --soft:#4F4A42; --rule:#D8CFBF;
+    --accent:#9A3412; --accent-light:#E9A47C;
+    --display:'Playfair Display', Georgia, serif;
+    --text:'Source Serif 4', Georgia, serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:var(--text); font-size:18px; line-height:1.55;
+    min-height:100vh;
+  }
+  a{color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+
+  /* Masthead */
+  .masthead{padding-top:40px}
+  .rule-thick{height:3px;background:var(--ink)}
+  .rule-thin{height:1px;background:var(--ink);margin-top:4px}
+  .meta-row{
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:14px 0;font-size:13px;letter-spacing:.22em;text-transform:uppercase;
+  }
+  .meta-row .left{color:var(--accent);font-weight:600}
+  .meta-row .right{color:var(--soft);font-style:italic;letter-spacing:.04em;text-transform:none;font-size:15px}
+
+  /* Hero */
+  .hero{padding:72px 0 56px;display:grid;grid-template-columns:1.35fr 1fr;gap:56px;align-items:end}
+  .kicker{font-size:14px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:22px}
+  h1{
+    font-family:var(--display);font-weight:400;
+    font-size:clamp(56px,9vw,124px);line-height:.95;letter-spacing:-.02em;
+  }
+  h1 i{color:var(--accent)}
+  .lede{font-size:21px;color:var(--soft);line-height:1.55;max-width:34ch}
+  .lede b{color:var(--ink);font-weight:600}
+
+  /* Facts strip */
+  .facts{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);
+  }
+  .fact{padding:22px 20px 22px 0}
+  .fact + .fact{padding-left:20px;border-left:1px solid var(--rule)}
+  .fact .n{font-family:var(--display);font-size:44px;line-height:1;color:var(--accent)}
+  .fact .l{font-size:15px;color:var(--soft);margin-top:8px}
+
+  /* Section heading */
+  .section-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:72px 0 28px}
+  .section-head h2{font-family:var(--display);font-weight:400;font-size:40px;line-height:1.1}
+  .section-head p{font-style:italic;color:var(--soft)}
+
+  /* Cards */
+  .papers{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+  .paper{
+    position:relative;background:var(--card);
+    border-top:3px solid var(--accent);
+    padding:36px 36px 32px;
+    display:flex;flex-direction:column;gap:18px;
+    box-shadow:0 1px 0 var(--rule), 0 18px 40px -28px rgba(29,27,24,.35);
+    transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s;
+    overflow:hidden;
+  }
+  .paper:hover{transform:translateY(-4px);box-shadow:0 1px 0 var(--rule), 0 28px 50px -26px rgba(29,27,24,.45)}
+  .paper .num{
+    position:absolute;right:28px;top:6px;
+    font-family:var(--display);font-style:italic;font-size:140px;line-height:1;
+    color:var(--paper-2);pointer-events:none;user-select:none;
+    transition:color .35s;
+  }
+  .paper:hover .num{color:#E7DCC9}
+  .paper .label{position:relative;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .paper h3{position:relative;font-family:var(--display);font-weight:400;font-size:52px;line-height:1}
+  .paper h3 i{font-size:.62em;color:var(--soft)}
+  .paper .desc{position:relative;color:var(--soft);font-size:18px;max-width:40ch}
+  .paper .specs{
+    position:relative;display:flex;flex-wrap:wrap;gap:8px 18px;
+    font-size:15px;color:var(--ink);padding:14px 0;
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  }
+  .paper .specs span{white-space:nowrap}
+  .paper .specs span + span::before{content:"·";margin-right:18px;color:var(--accent)}
+  .actions{position:relative;display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:var(--text);font-size:16px;font-weight:600;letter-spacing:.02em;
+    text-decoration:none;padding:13px 22px;border-radius:999px;
+    transition:background .25s,color .25s,border-color .25s,transform .25s;
+  }
+  .btn svg{width:18px;height:18px;flex:none;transition:transform .25s}
+  .btn.primary{background:var(--ink);color:var(--paper)}
+  .btn.primary:hover{background:var(--accent)}
+  .btn.primary:hover svg{transform:translateX(4px)}
+  .btn.ghost{border:1px solid var(--ink);color:var(--ink)}
+  .btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .btn.ghost:hover svg{transform:translateY(2px)}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  /* Quote band */
+  .band{
+    margin:88px 0 0;background:var(--ink);color:var(--paper);
+  }
+  .band .wrap{padding-top:64px;padding-bottom:64px;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center}
+  .band .mark{font-family:var(--display);font-style:italic;font-size:120px;line-height:.7;color:var(--accent-light)}
+  .band p{font-family:var(--display);font-style:italic;font-size:clamp(26px,3.4vw,40px);line-height:1.25}
+  .band small{display:block;margin-top:14px;font-family:var(--text);font-style:normal;font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:#CFC6B8}
+
+  footer{padding:28px 0 48px}
+  footer .row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--soft);padding-top:16px;border-top:1px solid var(--rule)}
+
+  /* Entrance animation */
+  .reveal{opacity:0;transform:translateY(18px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.3s}
+  .d4{animation-delay:.42s}.d5{animation-delay:.52s}.d6{animation-delay:.62s}
+  .d7{animation-delay:.72s}.d8{animation-delay:.82s}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{animation:none;opacity:1;transform:none}
+    .paper,.btn,.btn svg{transition:none}
+  }
+
+  /* Responsive */
+  @media (max-width:880px){
+    .hero{grid-template-columns:1fr;gap:28px;padding:48px 0 40px}
+    .papers{grid-template-columns:1fr}
+    .facts{grid-template-columns:repeat(2,1fr)}
+    .fact:nth-child(3){padding-left:0;border-left:none}
+    .fact:nth-child(n+3){border-top:1px solid var(--rule)}
+    .band .wrap{grid-template-columns:1fr;gap:8px}
+    .band .mark{font-size:90px}
+  }
+  @media (max-width:520px){
+    .wrap{padding:0 16px}
+    .meta-row .right{display:none}
+    .paper{padding:28px 22px 24px}
+    .paper h3{font-size:42px}
+    .paper .num{font-size:110px;right:16px}
+    .section-head{flex-direction:column;gap:4px;margin-top:56px}
+    .btn{flex:1 1 auto;justify-content:center}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead wrap reveal d1">
+  <div class="rule-thick"></div>
+  <div class="rule-thin"></div>
+  <div class="meta-row">
+    <span class="left">Cambridge English · B1 Preliminary</span>
+    <span class="right">A student guide to the exam</span>
+  </div>
+  <div class="rule-thin" style="margin-top:0;background:var(--rule)"></div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="reveal d2">
+      <p class="kicker">Exam preparation</p>
+      <h1>B1 <i>Preliminary.</i></h1>
+    </div>
+    <p class="lede reveal d3">Four papers, four short guides. Open a presentation to study a paper step by step, or <b>download the PDF</b> to read it anywhere.</p>
+  </section>
+
+  <div class="facts reveal d4">
+    <div class="fact"><div class="n">4</div><div class="l">papers, each worth 25%</div></div>
+    <div class="fact"><div class="n">2 h</div><div class="l">of written papers, plus Speaking</div></div>
+    <div class="fact"><div class="n">140</div><div class="l">score to pass (B1)</div></div>
+    <div class="fact"><div class="n">160</div><div class="l">for Distinction (B2)</div></div>
+  </div>
+
+  <div class="section-head reveal d5">
+    <h2>The four papers</h2>
+    <p>In exam order</p>
+  </div>
+
+  <section class="papers">
+    <article class="paper reveal d5">
+      <span class="num" aria-hidden="true">01</span>
+      <span class="label">Paper one</span>
+      <h3>Reading</h3>
+      <p class="desc">Same idea, different words: a method for each of the six parts, from short notices to the open cloze.</p>
+      <div class="specs"><span>6 parts</span><span>45 minutes</span><span>32 questions</span></div>
+      <div class="actions">
+        <a class="btn primary" href="reading.html">Open presentation
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn ghost" href="reading.pdf" download>Download PDF
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 10l6 6 6-6M5 20h14"/></svg></a>
+      </div>
+    </article>
+
+    <article class="paper reveal d6">
+      <span class="num" aria-hidden="true">02</span>
+      <span class="label">Paper two</span>
+      <h3>Writing</h3>
+      <p class="desc">Reply to every note: steps, phrases and a model answer for the email, the article and the story.</p>
+      <div class="specs"><span>2 tasks</span><span>45 minutes</span><span>about 100 words each</span></div>
+      <div class="actions">
+        <a class="btn primary" href="writing.html">Open presentation
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn ghost" href="writing.pdf" download>Download PDF
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 10l6 6 6-6M5 20h14"/></svg></a>
+      </div>
+    </article>
+
+    <article class="paper reveal d7">
+      <span class="num" aria-hidden="true">03</span>
+      <span class="label">Paper three</span>
+      <h3>Listening</h3>
+      <p class="desc">Listen for ideas, not words: a method for each part and how to use the second listening.</p>
+      <div class="specs"><span>4 parts</span><span>about 30 minutes</span><span>25 questions</span></div>
+      <div class="actions">
+        <a class="btn primary" href="listening.html">Open presentation
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn ghost" href="listening.pdf" download>Download PDF
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 10l6 6 6-6M5 20h14"/></svg></a>
+      </div>
+    </article>
+
+    <article class="paper reveal d8">
+      <span class="num" aria-hidden="true">04</span>
+      <span class="label">Paper four</span>
+      <h3>Speaking</h3>
+      <p class="desc">Say more and give reasons: a method for each part, working with a partner, and phrases for when you get stuck.</p>
+      <div class="specs"><span>4 parts</span><span>12 minutes</span><span>with a partner</span></div>
+      <div class="actions">
+        <a class="btn primary" href="speaking.html">Open presentation
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn ghost" href="speaking.pdf" download>Download PDF
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 10l6 6 6-6M5 20h14"/></svg></a>
+      </div>
+    </article>
+  </section>
+</main>
+
+<section class="band">
+  <div class="wrap">
+    <span class="mark" aria-hidden="true">“</span>
+    <p>Read the task. Answer every part. Give a reason. Then check.<small>Four habits for every paper</small></p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="row">
+    <span>B1 Preliminary · Exam preparation</span>
+    <span>Reading · Writing · Listening · Speaking</span>
+  </div>
+</footer>
+
+</body>
+</html>
